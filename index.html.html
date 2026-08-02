@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sirajul Huda Sunni Madrasa - Exam Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 40px;
+            min-height: 500px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        .header h1 {
+            font-size: 28px;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+        /* Registration Form */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        /* Exam Page */
+        .progress-bar {
+            background: #eee;
+            height: 8px;
+            border-radius: 4px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+        .question-number {
+            color: #667eea;
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        .question-text {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .option {
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+        .option:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        .option input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .option.selected {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+        .option-text {
+            display: inline;
+            color: #333;
+        }
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+        .nav-btn {
+            flex: 1;
+            padding: 12px;
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .nav-btn:hover {
+            background: #f0f4ff;
+        }
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .nav-btn.submit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+        }
+        /* Results Page */
+        .results-container {
+            text-align: center;
+        }
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            color: white;
+        }
+        .score-number {
+            font-size: 48px;
+            font-weight: bold;
+        }
+        .score-total {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .grade {
+            font-size: 24px;
+            color: #333;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+        .status {
+            font-size: 16px;
+            color: #666;
+            margin-top: 10px;
+            margin-bottom: 30px;
+        }
+        .details {
+            background: #f8f9ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            color: #333;
+        }
+        .detail-row:last-child {
+            margin-bottom: 0;
+        }
+        .restart-btn {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="app"></div>
+
+    <script>
+        // Questions Database - Different questions for each subject in Malayalam
+        const questionsBySubject = {
+            'DUROOS1': [
+                { q: "നബി محمد(ﷺ) എത്ര വർഷം ജീവിച്ചിരുന്നു?", opts: ["60 വർഷം", "63 വർഷം", "65 വർഷം"], ans: 1 },
+                { q: "ബൽഹയിലെ രാജാവ്  ആരായിരുന്നു?", opts: ["മൂസ നബി", "ഇബ്രാഹീമുബ്നു അദ്ഹം", "ഇബ്രാഹീം നബി"], ans: 1 },
+                { q: "ആരാധനകൾ അല്ലാഹു സ്വീകരിക്കാൻ എന്താണ് ഉണ്ടായിരിക്കേണ്ടത്?", opts: ["ആളുകളെ കാണിക്കൽ ", "അഹങ്കാരം  ", "ഇഖ്‌ലാസ്"], ans: 2 },
+                { q: "കളവ്,ഗീബത്, നാമീമത്, പരിഹാസം എന്നിവ ഏത് അവയവത്തിന്റെ ദോശങ്ങളാണ്?", opts: ["നാവ്", "കയ്യ് ", "കാൽ"], ans: 0 },
+                { q: " എത്ര കൈപുള്ളതാണങ്കിലും സത്യം മാത്രമേ പറയൂ ,എന്നതിന്റെ അറബി ?", opts: ["لآيَدخُلُ الجَنَّتَ نَمٌَامٌ", "قُلِ الْحَقَ وَلَوْ كَانَ مُرًا", "لاَيَغْتَب بَّغْضُكُمْ بًغْضًا"], ans: 1 },
+                { q: "അബുലഹബിന്റയും കുടുംബത്തിന്റെയും നാശത്തെ കുറിച്ച് മുന്നറിയിപ്പ് നൽകിയ സൂറത്ത് ഏതാണ്??", opts: ["سورة المؤمنون ", "سورة المسد", "سورة المريم"], ans: 1 },
+                { q: "وَاقْنَعْ بِتَرْكِ المُشْتَهَى وَالفَاخِرِ ബാക്കി പൂരിപ്പിക്കുക ?", opts: ["فَاتَ الَّذِي يَعْنِيهِ مِنْ غَيْرِ ائْتِلَا", "مِنْ مَطْعَمٍ وَمَلَابِسٍ وَمَنَازِلَا", "وَعَقِيدَةً وَمُزَكِّي الْقَلْبِ اصْقُـلَا"], ans: 1 },
+                { q: "സിദ്ദീഖ് (റ)എത്ര കാലം ഭരണം നടത്തി?", opts: ["മൂന്നു വർഷവും മൂന്നു മാസവും", "രണ്ടു വർഷവും മൂന്നു മാസവും ", "രണ്ടു വർഷവും ആറു മാസവും"], ans: 1 },
+                { q: "റോമക്കാരുമായി യുദ്ധം ചെയ്യാൻ നബി (സ്വ) നിശ്ചയിച്ച നേതാവ് ആര്?", opts: ["സിദ്ദിഖ് (റ)", "ഉമർ (റ)", "ഉസാമാ (റ)"], ans: 2  },
+                { q: "കള്ള പ്രവാചകനായി വാദിച്ചു വന്നവൻ ആര്?", opts: [" അബൂലഹബ്", "മുസൈലിമതുൽ ഖദ്ദാബ്", "ഉമയ്യത്ത്"], ans: 1 },
+                { q: "പ്രവാചകന്മാരെ നിയോഗിച്ചത് എന്തിനുവേണ്ടി?", opts: ["ഓരോ കാലത്തെയും ശത്രുക്കളെ നേരിടാൻ വേണ്ടി", "ഓരോ കാലത്തെയും  സൗഹൃദം നിലനിർത്താൻ വേണ്ടി", "ഓരോ കാലത്തും ജനങ്ങൾക്ക് നേർവഴി കാണിക്കാനും ഇസ്ലാമിക ജീവിത രീതി പഠിപ്പിക്കാനുമാണ്"], ans: 2 },
+                { q: "നബി തങ്ങൾ ജനിച്ചത് ഏത് നൂറ്റാണ്ടിൽ?", opts: ["അഞ്ചാം നൂറ്റാണ്ടിൽ", "ആറാം നൂറ്റാണ്ടിൽ", " ഏഴാം നൂറ്റാണ്ടിൽ"], ans: 1 },
+                { q: "നബി തങ്ങൾ എത്രാം വയസ്സിൽ ഹിജ്റക്ക് പോയി?", opts: ["53", "63", "73"], ans: 0 },
+                { q: "മക്ക ഇസ്ലാമിക രാജ്യത്തിന്റെ ഭാഗമായത് ഹിജ്രയുടെ എത്രാം വർഷം?", opts: ["8", "7", "9"], ans: 0 },
+                { q: "നബി (സ്വ) തങ്ങളുടെ വളർത്തു പുത്രന്റെ പേരെന്ത്?", opts: ["അനസ് (റ)", "സൈദുബിനു സാബിത്ത് (റ)", "സെയ്ദുബ്നു ഹാരിസ്  (റ"], ans: 2 },
+                { q: "നബി (സ്വ) എത്ര വർഷം കൊണ്ടാണ് ഒരു മാതൃകാരാജ്യം നിർമ്മിച്ചത്?", opts: ["40", "63", "23"], ans: 2 },
+                { q: "നബി (സ്വ) തങ്ങൾക്ക് ശേഷം തങ്ങളുടെ മാതൃക പിൻപറ്റി ഭരണം നടത്തിയ സ്വഹാബിമാർക്ക് പറയുന്ന പേര്?", opts: ["ദുന്നൂറൈൻ", "അഹ്ലു സുഫ്ഫ", "കുലഫാഉ റാഷിദീൻ"], ans: 2 },
+                { q: "ഇസ്‌ലാമിന്റെ തലസ്ഥാനം ഏത് നഗരമായിരുന്നു?", opts: ["മക്ക  ", "മദീന", "ബഗ്ദാദ്"], ans: 1 },
+                { q: "ഹലാലായ കച്ചവട മാർഗം ഏത്?", opts: ["കച്ചവടം ", "പലിശക്ക് കൊടുക്കൽ", "ബെറ്റ് വെക്കുക"], ans: 0  },
+                { q: "പത്തു വയസ്സുള്ളപ്പോൾ  ഇസ്ലാം സ്വീകരിച്ചു ആര്?", opts: ["സിദ്ധീഖ് തങ്ങൾ ", "അലിയാർ തങ്ങൾ ", "ഉമർ തങ്ങൾ "], ans: 1 },
+                { q: "ജിന്നുകളെ സൃഷ്ടിച്ചത് എന്ത് വസ്തു കൊണ്ടാണ് ?", opts: ["തീയുകൊണ്ട് ", "പ്രകാശം കൊണ്ട് ", "മണ്ണ്കൊണ്ട് "], ans: 1 },
+                { q: "من لنا مثلك يا سيدي خير النبي എന്നതിൻ്റെ ആശയം എന്ത്?", opts: ["അല്ലാഹുവിന്റെ ഗുണം നബി ﷺ തങ്ങളിലുണ്ടാവട്ടെ.അല്ലാഹുവിന്റെ രക്ഷ റസൂലായവരിൽ ഉണ്ടാവട്ടെ.", "നബിയെ തങ്ങൾ ഞങ്ങൾക്കിടയിൽ ഉദിച്ചിരിക്കുന്നു.നക്ഷത്രങ്ങളുടെ കൂട്ടത്തിൽ പൂർണചന്ദ്രൻ ഉദിക്കുന്നത് പോലെ ", "നബിയെ അങ്ങയെ പോലെ ഞങ്ങൾക്ക് ആരാണുള്ളത്.നബിമാരിൽ ഉത്തമരായ എന്റെ നേതാവായ നബിയെ."], ans: 2 },
+                { q: "ഉസ്മാൻ (റ)ന്റെ കാലത്തു കലാഭത്തിനു മുന്നിൽ നിന്നത് ആര് ?", opts: ["അസദുള്ള ", "ഇബ്നു സബഅ്", "കുറൈശ് അൻസാരി"], ans: 1 },
+                { q: "നബി محمد(ﷺ)ന്റെ വിശ്വസ്താരെ ഏത് പേരിൽ അറിയപ്പെടുന്നു?", opts: ["സാഹബി", "മുഹാജിരൂൻ", "അൻസാരി"], ans: 0 },
+                { q: "നബി محمد(ﷺ) ഇസ്രാഈൽ ബർ മിരാജ് സംഭവം വിവരിക്കുന്നത് ഏത് സൂറയിൽ?", opts: ["സൂറത്ത് നജ്മ്", "സൂറത്ത് ഇസ്ര", "സൂറത്ത് തൗബ"], ans: 1 },
+                { q: "أَنْتَ تَطْلُعُ بَيْنَنَا فِي الْكَوَاكِبِ كَالْبُدُورِ എന്നതിന്റെ ആശയം എന്ത് ?", opts: ["നബിയെ തങ്ങൾ ഞങ്ങൾക്കിടയിൽ ഉദിച്ചിരിക്കുന്നു.നക്ഷത്രങ്ങളുടെ കൂട്ടത്തിൽ പൂർണചന്ദ്രൻ ഉദിക്കുന്നത് പോലെ", "അറേബ്യയിലെ ശിപാർശകരും അറബികളിൽ പ്രിയപ്പെട്ടവരുമായ പ്രവാചകരിൽ ഉണ്ടാകട്ടെ.", "നബിയെ തങ്ങൾ ഉമ്മയാണോ അതല്ല ഉപ്പയാണ്..?ആ ഉമ്മയിലും ഉപ്പയിലും ഞങ്ങൾ കണ്ടിട്ടില്ല."], ans: 0 },
+                { q: "ഉമർ (റ) ന്റെ ഭരണ പ്രവർത്തനങ്ങൾ 2 എഴുതുക ?", opts: ["മുസ്ലിം ഭരണ വ്യാപ്തി വർധിപ്പിച്ചു,ഹിജ്‌റ വർഷ കലണ്ടർ നടപ്പിലാക്കി ", "ആഭ്യന്തര കലാപങ്ങൾക് അറുതി വരുത്തി,ഖുർആൻ ഒരു മുസാഫായി ഒരുമിച്ച് കൂട്ടി", "യര്മൂക് ഇസ്ലാമിക ഭരണത്തിന് കീഴിലാക്കി,രാജ്യങ്ങളെ സംസ്ഥാനങ്ങളാക്കി തിരിച്ചു "], ans: 0 },
+                { q: "ഉമർ (റ ) നെ വധിച്ച ആൾ ആരാണ്  ?", opts: ["അബൂ ലുഅ് ലുഅ്", "കുറൈശ് അൻസാരി", "മുഹാജിരൂൻ അൻസാരി"], ans: 0 },
+                { q: "ഉസ്മാൻ (റ) നെ വഫാത്തായ വര്ഷം ?", opts: ["ഹിജ്‌റ 45 വര്ഷം ദുൽഹിജ്ജ 28 തിങ്കളാഴ്ച ", "ഹിജ്‌റ 35 വര്ഷം ദുൽഹിജ്ജ 18 തിങ്കളാഴ്ച ", "ഹിജ്‌റ 55 വര്ഷം ദുൽഹിജ്ജ 38 തിങ്കളാഴ്ച "], ans: 1 },
+                { q: " ഉസ്മാൻ (റ ) ന്റെ ഭരണ പ്രവർത്തനങ്ങൾ 2 പറയുക ?", opts: ["യര്മൂക് ഇസ്ലാമിക ഭരണത്തിന് കീഴിലാക്കി,രാജ്യങ്ങളെ സംസ്ഥാനങ്ങളാക്കി തിരിച്ചു", "മുസ്ലിം ഭരണ വ്യാപ്തി വർധിപ്പിച്ചു,ഹിജ്‌റ വർഷ കലണ്ടർ നടപ്പിലാക്കി", "കപ്പലുകൾ നിർമിച്ച നാവിക സൈന്യം രൂപികരിച്ചു,റോഡുകളും പാലങ്ങളും നിർമിച്ചു "], ans: 2  }
+            ],
+            'DUROOS2': [
+                { q: "അവരോടൊപ്പം ഇരിക്കുന്നവർ പരാജയ പെടുകയില്ല ആരുടെ കൂടെ ഇരിക്കുന്നവർ ?", opts: ["", "അല്ലാഹുവിന് ദിക്ർ ചൊല്ലുന്ന  സദസ്സിൽ ഇരിക്കുന്നവർ ", "മതപരിവർത്തനം"], ans: 1 },
+                { q: "നബി محمد(ﷺ) ഏത് ദിനത്ത് മദീനയിൽ പെത്തിയെത്തിയിരുന്നു?", opts: ["10 നവംബർ", "12 നവംബർ", "15 നവംബർ"], ans: 1 },
+                { q: "കുബായ്യ മസ്ജിദ് നിർമ്മിതമായ സ്ഥലം എന്ത്?", opts: ["കുബായ്യ ദേശം", "സാൻ", "ബാനുവ സായിദ് ദേശം"], ans: 0 },
+                { q: "നബി محمد(ﷺ) എത്ര വർഷം കുബായ്യിൽ പരിശ്രമം നടത്തിയിരുന്നു?", opts: ["10 ദിവസം", "14 ദിവസം", "20 ദിവസം"], ans: 1 },
+                { q: "മദീനയിലെ പ്രഥമ മസ്ജിദ് നിർമ്മിതമായ ശേഷം നബി محمد(ﷺ) ആ പ്രാര്ഥനയിൽ എത്ര ദിവസം പ്രാര്ഥിച്ചിരുന്നു?", opts: ["7 ദിവസം", "14 ദിവസം", "17 ദിവസം"], ans: 2 },
+                { q: "നബി محمد(ﷺ) പ്രഥമമായി മദീനയിലെ കതകത്തിയിൽ ഇഫ്റാര് നിയത്തിരുന്നത് ഏത് വാഷത്ത്?", opts: ["1 ഹിജറി", "2 ഹിജറി", "3 ഹിജറി"], ans: 0 },
+                { q: "സൻ ബനുവ പരിസരത്തെ സാഹബിബ് കോരിയഫ് ഏവർ?", opts: ["അൽ-അൻസാരി", "സാഹബിബ് മുഹാജിരൂൻ", "സാഹബിബ് കഷ്ത്രജ്"], ans: 0 },
+                { q: "നബി محمد(ﷺ) ബദരിലെ വിജയത്തിനു വേണ്ടി എത്ര മാസം പ്രস്തുതി നടത്തിയിരുന്നു?", opts: ["1 മാസം", "2 മാസം", "3 മാസം"], ans: 0 },
+                { q: "ബദരിലെ ഉൾ മെതായ എത്ര സ്ഥലാന്തരണ നടന്നിരുന്നു?", opts: ["1 ആളും", "2 ആളും", "3 ആളും"], ans: 0 },
+                { q: "നബി محمد(ﷺ) മദിനയ്ക്കിടയിലെ കണക്കുകളിൽ ജനക്കൽവണ് നിർണിച്ചിരുന്നത് എങ്ങനെ?", opts: ["അപ്പോസ്തോലന്റെ നേതൃത്വത്തിൽ", "ന്യായാധിപതികൾ നിയോഗിച്ച്", "തന്നെ നേരിട്ട് നിയോഗം നടത്തി"], ans: 1 },
+                { q: "ബദരിലെ നാമപ്രദർശനം ആരിലൈരായിരുന്നു?", opts: ["കുറൈശ് നേതാ", "വ്യാപാരി നേതാ", "ഗ്രാമീണ നേതാ"], ans: 0 },
+                { q: "നബി محمد(ﷺ) പത്ത് ബെത്വമിൽ ഏത് ദിനത്ത് വന്നെത്തിയിരുന്നു?", opts: ["സോമവാരം", "വെളളി", "വെള്ളിയാഴ്ച"], ans: 2 },
+                { q: "നബി محمد(ﷺ) എത്ര കെട്ടിടങ്ങൾ നിർമ്മിച്ച് നദീയ മുണ്ഡത്തിൽ പുനസ്ഥാപന നടത്തിയിരുന്നു?", opts: ["1 കെട്ടിടം", "3 കെട്ടിടം", "5 കെട്ടിടം"], ans: 1 },
+                { q: "മദിനയ്ക്കിൽ ഉത്ത്രാ നിധി ഏത് കെട്ടിടത്തിൽ ദിനയിരുന്നു?", opts: ["സ്ഥാനാന്തരണ കെട്ടിടത്തിൽ", "നബീയ ഭവനത്തിൽ", "മെഹരാബ് കെട്ടിടത്തിൽ"], ans: 1 },
+                { q: "നബി محمد(ﷺ) എത്ര വർഷം ഉഹുദ് കഴിയുന്ന കാലത്ത് ജീവിച്ചിരുന്നു?", opts: ["1 വർഷം", "2 വർഷം", "3 വർഷം"], ans: 1 },
+                { q: "കന്ദക് യുദ്ധത്തിൽ ഹംസ മുസ്ലിംസുടെ നേതാ ആരായിരുന്നു?", opts: ["നബി محمد(ﷺ)", "സാഗരൻ", "അബിതാലിബ്"], ans: 0 },
+                { q: "നബി محمد(ﷺ) കൈയൃ അപ്പാരണത്തിന് ഏത് പോരാട്ടം അവലംബിച്ചിരുന്നു?", opts: ["കടുത്ത പോരാട്ടം", "സാധാരണ പോരാട്ടം", "സമരു പോരാട്ടം"], ans: 0 },
+                { q: "നബി محمد(ﷺ) ഫരാ ഘരിൻ വിജയത്തിനു ശേഷം ഏത് ഗ്രാമത്തിൽ പ്രവേശിച്ചിരുന്നു?", opts: ["മിന്ന", "കയ്യബർ", "അരിബ"], ans: 1 },
+                { q: "നബി محمد(ﷺ) ഹുദൈബിയ്യയിൽ എത്ര പെരുന്നാൾ നിലനിന്നിരുന്നു?", opts: ["5 ദിവസം", "10 ദിവസം", "14 ദിവസം"], ans: 1 },
+                { q: "നബി محمد(ﷺ) നിലത് എത്ര ത്വരതതൂയിൽ മക്കയ് പ്രവേശിച്ചിരുന്നു?", opts: ["4 മാസം", "6 മാസം", "8 മാസം"], ans: 2 }
+            ],
+            'FIQH': [
+                { q: "വാജിബ് എന്നാൽ എന്ത് ?", opts: ["ചെയ്‌താൽ കൂലിയുള്ളതും ഉപേക്ഷിച്ചാൽ ശിക്ഷയില്ലാത്തതും ", "ചെയ്താൽ കൂലിയുള്ളതും ഉപേക്ഷിച്ചാൽ ശിക്ഷയുള്ളതും ", "ചെയ്താൽ ശിക്ഷയുള്ളതും  ഉപേക്ഷിച്ചാൽ കൂലിയുള്ളതും  "], ans: 1 },
+                { q: "വാജിബിന്റെ മറ്റൊരു പേര് ?", opts: ["മന്തൂബ്", "മുബാഹ് ", "ഫർള് "], ans: 2 },
+                { q: "സുന്നത്തിന്റെ മറ്റൊരു പേര് ?", opts: ["മുബാഹ്", "മന്തൂബ്", "ഫർള്"], ans: 1 },
+                { q: "അശുദ്ധി എത്ര വിധം ?", opts: ["5", "2", "6"], ans: 1 },
+                { q: "ചെറിയ അശുദ്ധി ഉള്ളവർക്കു ഹറാമായ കാര്യങ്ങൾ 3 എണ്ണം എഴുതുക ?", opts: ["നിസ്കാരം, തവാഫ് ,മുസ്ഹഫ് തൊടൽ ", "നോമ്പ് ,സകാത് , ഭക്ഷണം കഴിക്കൽ ", "സ്വദഖ കൊടുക്കൽ ,സ്വലാത്തു ചൊല്ലൽ, ദിക്ർ ചൊല്ലൽ "], ans: 0 },
+                { q: " ശറഇയ്യയ്യാ കുളിയുടെ രൂപം എങ്ങനെ ?", opts: ["ഞാൻ കുളിക്കുന്നു എന്ന്കരുതി തലയിലൂടെ  വെള്ളം ഒലിപ്പിക്കുക", "ഞാൻ കുളിക്കുന്നു എന്ന്കരുതി  ശരീരം മുഴുവൻ വെള്ളം ഒലിപ്പിക്കുക", "ബിസ്മി ചൊല്ലി  തലയിലൂടെ  വെള്ളം ഒലിപ്പിക്കുക"], ans: 1 },
+                { q: "ഹൈള് എന്നാൽ എന്ത് ?", opts: ["ഗർഭപാത്രത്തിൽ നിന്ന് വരുന്ന രക്തമാണ് ", "രോഗം കാരണം ഗർഭാശയത്തിൽ നിന്ന് പുറപ്പെടുന്ന രക്തം ", "പ്രായ പൂർത്തിയായ സ്ത്രീകൾക് ഗർഭപാത്രത്തിൽ നിന്ന് ചില പ്രേത്യേക സമയത് പുറപ്പെടുന്ന രക്തം"], ans: 2 },
+                { q: "ഹൈളിന്റെ കുറന്ന കാലാവധി ,കൂടിയ കാലാവധി?", opts: ["കുറഞ്ഞത് 1 നിമിഷം സാദാരണ 40 കൂടിയാൽ 60 ദിവസം ", "കുറഞ്ഞത് 1 ദിവസം  സാദാരണ 6 ,7 ദിവസം , കൂടിയാൽ 60 ദിവസം ", "കുറഞ്ഞത് 15 ദിവസം  സാദാരണ 6 ,7 ദിവസം , കൂടിയാൽ 40 ദിവസം "], ans: 1 },
+                { q: "جمع ،قصر ൻ്റെയും വഴിദൂരം എത്ര?", opts: ["142 കിലോമീറ്റെർ ", "122 കിലോമീറ്റെർ ", "132 കിലോമീറ്റെർ "], ans: 2 },
+                { q: "തയമം ചെയ്യൽ എപ്പോഴാണ് അനുവദിനീയമാവുക ?", opts: ["രോഗം, മുറിവ് പോലോത്ത കാരണം വെള്ളം ചേരൽ ബുദ്ധിമുട്ട് ആവുന്ന സമയത്താണ് ", "കാൽമുട്ട് പൊട്ടിയ കാരണം വെള്ളം ചേരൽ ബുദ്ധിമുട്ട് ആവുന്ന സമയത്താണ് ", "വെള്ളം കലങ്ങിയാൽ തയമം ചെയ്യാം "], ans: 0 }
+            ],
+            'TAJWEED': [
+                { q: "ബാ എന്ന അക്ഷരത്തിന്റെ മഹ്‌റജ് എന്ത്?", opts: ["ഹൽക്കിന്റെ താഴെ അറ്റം ", "രണ്ട് ചുണ്ടുകളുടെ ഇട", "നാവിന്റെ മദ്യവും അണ്ണാക്കും"], ans: 1 },
+                { q: "മദ്ദ് മുത്തസിൽ എത്ര കത്റാണ് നീട്ടേണ്ടത്?", opts: ["മൂന്നര അലിഫ് ", " നാലര അലിഫ്", "രണ്ടര അലിഫ്"], ans: 0 },
+                { q: "തൻവീനിനു ശേഷം ഏത് അക്ഷരം വന്നാലാണ് ഇഖ്‌ലാബ് ചെയ്യേണ്ടത്?", opts: ["ബാഅ്", "ഫാഅ്", "ലാമ്"], ans: 0 },
+                { q: "മദ് ലാസിം എന്ന് പറഞ്ഞാൽ എന്ത് ?", opts: ["മദ്ദക്ഷരത്തിന് ശേഷം അടുത്ത കലിമത്തിൽ ആദ്യക്ഷരമായി ഹംസ വന്നാൽ", "മദ്ദക്ഷരത്തിൻ്റെ ശേഷം സുകൂൻ പുതുതായി വന്ന മദ്ദ്", "മദ്ദഅക്ഷരത്തിന്റെയും ലീന ക്ഷരത്തിന്റെയും ശേഷം അതേ കലിമത്തിൽ സ്ഥിരമായി സുക്കൂൻ വരൽ"], ans: 2 },
+                { q: "ഖുർആൻ പാരായണം ചെയ്യുമ്പോൾ ഏറ്റവും ഉത്തമമായ രൂപം ഏതാണ്?", opts: ["തർത്തീൽ", " തദ്‌വീർ", "ഹദ്ർ"], ans: 0 },
+                { q: "തൻവീനിന് ശേഷം വരുന്ന അക്ഷരത്തിന് സുക്കൂൻ ആണെങ്കിൽ തൻവീനിനെ എങ്ങനെ ഓതണം?", opts: ["കസ്ർ", "ഫതഹ് ", "ള്ളൊമ്മ്"], ans: 0 },
+                { q: "ആരാണ് അല്ലാഹുവിന്റെ അഹ്‌ലുകാർ??", opts: [" നോമ്പ് മാത്രം എപ്പോഴും അനുഷ്ഠിക്കുന്നവർ", "പള്ളികൾ നിർമ്മിക്കുന്നവർ മാത്രം", "ഖുർആൻ ധാരാളം പാരായണം ചെയ്യുകയും അതനുസരിച്ച് ജീവിക്കുകയും ചെയ്യുന്നവർ"], ans: 2 },
+                { q: "തജ്‌വീദ്  എന്നാൽ എന്ത്?", opts: ["അക്ഷരങ്ങളെ വേഗത്തിൽ വായിച്ചു തീർക്കൽ", "അക്ഷരങ്ങൾക്ക് ഈണം നൽകി മാത്രം പാടൽ", "അറബി അക്ഷരങ്ങൾക്ക് കൃത്യമായ മഖ്റജ് സിഫത് തർഖീഖ് മദ്ദ് ഗുന്നത്ത് പോലുള്ളവ നൽകുന്നതിന്"], ans: 2 },
+                { q: "ഹര്ഫുകളുടെ പ്രധാന സിഫാത്തുകൾ ഏതെല്ലാം ?", opts: ["همس. جَهْرْ .شِدَّةْ.رِخْوْ", "تفخيم .ترقيق .منفصل", "لازم . عارض . لين"], ans: 0 },
+                { q: "همس ന്റെ അക്ഷരങ്ങൾ ഏതാണ് ?", opts: ["أجد قط بكت", "فَحَثَّهُ شَخْصٌ سَكَتْ", "لن عمر"], ans: 1 }
+
+            ]
+        };
+
+        // Get questions based on selected subject
+        const questions = questionsBySubject['DUROOS1']; // Default - will be set based on user selection
+
+        class ExamPortal {
+            constructor() {
+                this.currentQuestions = questionsBySubject['DUROOS1']; // Default questions
+                this.state = {
+                    page: 'registration', // registration, exam, results
+                    userData: { name: '', class: '', subject: '' },
+                    currentQuestion: 0,
+                    answers: {},
+                    score: 0,
+                };
+                this.render();
+            }
+
+            render() {
+                const app = document.getElementById('app');
+                if (this.state.page === 'registration') {
+                    app.innerHTML = this.renderRegistration();
+                } else if (this.state.page === 'exam') {
+                    app.innerHTML = this.renderExam();
+                } else if (this.state.page === 'results') {
+                    app.innerHTML = this.renderResults();
+                }
+            }
+
+            renderRegistration() {
+                return `
+                    <div class="header">
+                        <h1>Sirajul Huda Sunni Madrasa</h1>
+                        <p>Kadampzhipuram</p>
+                    </div>
+                    <h2 style="color: #333; margin-bottom: 25px; font-size: 20px;">Student Registration</h2>
+                    <form onsubmit="portal.startExam(event)">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="class">Class</label>
+                            <select id="class" name="class" required>
+                                <option value="">Select Class</option>
+                                <option value="Class 4">Class 4</option>
+                                <option value="Class 5">Class 5</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <select id="subject" name="subject" required>
+                                <option value="">Select Subject</option>
+                                <option value="DUROOS1">DUROOS1</option>
+                                <option value="DUROOS2">DUROOS2</option>
+                                <option value="FIQH">FIQH</option>
+                                <option value="TAJWEED">TAJWEED</option>
+                            </select>
+                        </div>
+                        <button type="submit">Start Exam</button>
+                    </form>
+                `;
+            }
+
+            renderExam() {
+                const q = this.currentQuestions[this.state.currentQuestion];
+                const progress = ((this.state.currentQuestion + 1) / this.currentQuestions.length) * 100;
+                
+                return `
+                    <div class="header">
+                        <h1>Examination</h1>
+                        <p>${this.state.userData.name} - ${this.state.userData.class}</p>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: ${progress}%"></div>
+                    </div>
+                    <div class="question-number">Question ${this.state.currentQuestion + 1} of ${this.currentQuestions.length}</div>
+                    <div class="question-text">${q.q}</div>
+                    <div class="options">
+                        ${q.opts.map((opt, idx) => `
+                            <label class="option ${this.state.answers[this.state.currentQuestion] === idx ? 'selected' : ''}">
+                                <input type="radio" name="answer" value="${idx}" 
+                                    ${this.state.answers[this.state.currentQuestion] === idx ? 'checked' : ''}
+                                    onchange="portal.selectAnswer(${idx})">
+                                <span class="option-text">${opt}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                    <div class="nav-buttons">
+                        <button class="nav-btn" onclick="portal.prevQuestion()" 
+                            ${this.state.currentQuestion === 0 ? 'disabled' : ''}>← Previous</button>
+                        ${this.state.currentQuestion === this.currentQuestions.length - 1 
+                            ? `<button class="nav-btn submit" onclick="portal.submitExam()">Submit Exam</button>`
+                            : `<button class="nav-btn" onclick="portal.nextQuestion()">Next →</button>`
+                        }
+                    </div>
+                `;
+            }
+
+            renderResults() {
+                const percentage = Math.round((this.state.score / this.currentQuestions.length) * 100);
+                let grade = 'F';
+                let status = 'Need More Practice';
+                
+                if (percentage >= 90) { grade = 'A'; status = 'Excellent'; }
+                else if (percentage >= 80) { grade = 'B'; status = 'Very Good'; }
+                else if (percentage >= 70) { grade = 'C'; status = 'Good'; }
+                else if (percentage >= 60) { grade = 'D'; status = 'Satisfactory'; }
+                else if (percentage >= 50) { grade = 'E'; status = 'Pass'; }
+                
+                return `
+                    <div class="header">
+                        <h1>Exam Results</h1>
+                        <p>${this.state.userData.name}</p>
+                    </div>
+                    <div class="results-container">
+                        <div class="score-circle">
+                            <div class="score-number">${this.state.score}</div>
+                            <div class="score-total">out of ${questions.length}</div>
+                        </div>
+                        <div class="grade">Grade: <strong style="color: #667eea;">${grade}</strong></div>
+                        <div class="status">${percentage}% - ${status}</div>
+                        <div class="details">
+                            <div class="detail-row">
+                                <span>Student Name:</span>
+                                <strong>${this.state.userData.name}</strong>
+                            </div>
+                            <div class="detail-row">
+                                <span>Class:</span>
+                                <strong>${this.state.userData.class}</strong>
+                            </div>
+                            <div class="detail-row">
+                                <span>Subject:</span>
+                                <strong>${this.state.userData.subject}</strong>
+                            </div>
+                            <div class="detail-row">
+                                <span>Total Questions:</span>
+                                <strong>${this.currentQuestions.length}</strong>
+                            </div>
+                            <div class="detail-row">
+                                <span>Correct Answers:</span>
+                                <strong style="color: #667eea;">${this.state.score}</strong>
+                            </div>
+                            <div class="detail-row">
+                                <span>Wrong Answers:</span>
+                                <strong style="color: #e74c3c;">${this.currentQuestions.length - this.state.score}</strong>
+                            </div>
+                            <div class="detail-row">
+                                <span>Percentage:</span>
+                                <strong> {percentage}%</strong>
+                            </div>
+                        </div>
+                        <button class="restart-btn" onclick="portal.restart()">Take Exam Again</button>
+                    </div>
+                `;
+            }
+
+            startExam(event) {
+                event.preventDefault();
+                this.state.userData.name = document.getElementById('name').value;
+                this.state.userData.class = document.getElementById('class').value;
+                this.state.userData.subject = document.getElementById('subject').value;
+                // Load questions based on selected subject
+                this.currentQuestions = questionsBySubject[this.state.userData.subject] || questionsBySubject['DUROOS1'];
+                this.state.page = 'exam';
+                this.state.currentQuestion = 0;
+                this.state.answers = {};
+                this.render();
+            }
+
+            selectAnswer(idx) {
+                this.state.answers[this.state.currentQuestion] = idx;
+            }
+
+            nextQuestion() {
+                if (this.state.currentQuestion < this.currentQuestions.length - 1) {
+                    this.state.currentQuestion++;
+                    this.render();
+                }
+            }
+
+            prevQuestion() {
+                if (this.state.currentQuestion > 0) {
+                    this.state.currentQuestion--;
+                    this.render();
+                }
+            }
+
+            submitExam() {
+                this.state.score = 0;
+                for (let i = 0; i < this.currentQuestions.length; i++) {
+                    if (this.state.answers[i] === this.currentQuestions[i].ans) {
+                        this.state.score++;
+                    }
+                }
+                this.state.page = 'results';
+                this.render();
+            }
+
+            restart() {
+                this.currentQuestions = questionsBySubject['DUROOS1']; // Reset to default
+                this.state = {
+                    page: 'registration',
+                    userData: { name: '', class: '', subject: '' },
+                    currentQuestion: 0,
+                    answers: {},
+                    score: 0,
+                };
+                this.render();
+            }
+        }
+
+        const portal = new ExamPortal();
+    </script>
+</body>
+</html>
